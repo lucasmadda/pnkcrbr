@@ -1,0 +1,48 @@
+/* pnkcrbr — tokens do plano
+   regras de uso:
+   --pnk    só para o lado a (régis)
+   --crbr   só para o lado b (lucas)
+   --nariz  um único elemento vermelho por dobra de tela, nunca dois
+   --nevoa  texto secundário, só em ≥12px sobre breu */
+
+:root {
+  color-scheme: dark;
+
+  /* cor */
+  --breu: #070B18;
+  --osso: #F2EFE9;
+  --pnk: #FF5FA2;
+  --crbr: #4D7CFF;
+  --nariz: #E63329;
+  --nevoa: #7E8BB3;
+  --panel: #0C1120;
+  --line: #1C2540;
+
+  /* tipo — display: archivo 900 largo; corpo: plex mono */
+  --display: "Archivo", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ls-display: -0.02em;
+  --ls-eyebrow: 0.26em;
+
+  /* movimento — ease única, três marchas */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-hover: 200ms;
+  --t-estado: 400ms;
+  --t-entrada: 1200ms;
+
+  /* espaço — grade de 8pt */
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-5: 40px;
+  --s-6: 48px;
+  --s-7: 56px;
+  --s-8: 64px;
+  --s-12: 96px;
+  --s-16: 128px;
+
+  /* forma e sombra — interativos em pill; sombra tingida de breu, nunca cinza */
+  --pill: 999px;
+  --sombra-cartao: 0 32px 64px -32px rgba(7, 11, 24, 0.85);
+}

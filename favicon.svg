@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <!-- o venn: dois círculos e um ponto. traços mais grossos só aqui, para ler em 16px -->
+  <circle cx="92" cy="120" r="54" fill="none" stroke="#F2EFE9" stroke-width="12"/>
+  <circle cx="148" cy="120" r="54" fill="none" stroke="#F2EFE9" stroke-width="12"/>
+  <circle cx="120" cy="120" r="16" fill="#E63329"/>
+</svg>
