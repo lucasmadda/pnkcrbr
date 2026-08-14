@@ -1,0 +1,77 @@
+name: checagem dns
+
+on:
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  contents: read
+
+jobs:
+  checar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: dns visto de fora
+        run: |
+          echo "== a do apex =="
+          dig +short A pnkcrbr.com
+          echo "== aaaa do apex =="
+          dig +short AAAA pnkcrbr.com || true
+          echo "== www =="
+          dig +short www.pnkcrbr.com
+          echo "== ns =="
+          dig +short NS pnkcrbr.com
+
+      - name: veredito do apex
+        run: |
+          ips=$(dig +short A pnkcrbr.com | sort | tr '\n' ' ')
+          echo "ips atuais: $ips"
+          ok=1
+          for ip in 185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153; do
+            case " $ips " in *" $ip "*) ;; *) ok=0 ;; esac
+          done
+          for ip in $ips; do
+            case "$ip" in
+              185.199.108.153|185.199.109.153|185.199.110.153|185.199.111.153) ;;
+              *) echo "ip fora do github pages no apex: $ip"; ok=0 ;;
+            esac
+          done
+          if [ "$ok" = "1" ]; then
+            echo "veredito: apex apontando pro github pages"
+          else
+            echo "veredito: apex ainda nao aponta pro github pages"
+          fi
+
+      - name: resposta http real
+        run: |
+          echo "== https apex =="
+          curl -sSIL -m 20 https://pnkcrbr.com/ 2>&1 | head -14 || true
+          echo "== https www =="
+          curl -sSIL -m 20 https://www.pnkcrbr.com/ 2>&1 | head -8 || true
+          echo "== github.io =="
+          curl -sSIL -m 20 https://lucasmadda.github.io/pnkcrbr/ 2>&1 | head -8 || true
+
+      - name: estado do pages e do certificado
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -H "authorization: bearer $GH_TOKEN" \
+            -H "accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages" \
+            -o pages.json -w "get pages: %{http_code}\n"
+          jq -r '"status=\(.status) cname=\(.cname) build_type=\(.build_type) https_enforced=\(.https_enforced) dominio=\(.protected_domain_state) certificado=\(.https_certificate.state) (\(.https_certificate.description))"' pages.json || cat pages.json
+
+      - name: liga enforce https quando o certificado aprovar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pronto=$(jq -r 'if (.https_certificate.state == "approved") and (.https_enforced == false) then "1" else "0" end' pages.json 2>/dev/null || echo 0)
+          if [ "$pronto" = "1" ]; then
+            curl -s -X PUT -H "authorization: bearer $GH_TOKEN" \
+              -H "accept: application/vnd.github+json" \
+              -d '{"https_enforced":true}' \
+              "https://api.github.com/repos/${{ github.repository }}/pages" \
+              -o /dev/null -w "put enforce https: %{http_code}\n"
+          else
+            echo "enforce https: nada a fazer agora"
+          fi
