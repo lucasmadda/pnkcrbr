@@ -1,0 +1,362 @@
+/* pnkcrbr — plano nº 000 */
+
+/* base ------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--breu);
+  color: var(--osso);
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--osso);
+  color: var(--breu);
+}
+
+:focus-visible {
+  outline: 2px solid var(--osso);
+  outline-offset: 3px;
+}
+
+a {
+  color: inherit;
+}
+
+/* display ----------------------------------------------------------- */
+
+.wordmark,
+.nome {
+  font-family: var(--display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125, "wght" 900;
+  letter-spacing: var(--ls-display);
+  line-height: 0.95;
+}
+
+/* seção 1 — hero ---------------------------------------------------- */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-5);
+  padding: var(--s-12) var(--s-3) var(--s-16);
+  text-align: center;
+  background-image:
+    linear-gradient(to right, rgba(84, 110, 200, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(84, 110, 200, 0.07) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+
+.venn {
+  width: clamp(260px, 42vw, 520px);
+  height: auto;
+  display: block;
+}
+
+.venn-a,
+.venn-b {
+  fill: none;
+  stroke: var(--osso);
+  stroke-width: 5;
+}
+
+.venn-ponto {
+  fill: var(--nariz);
+}
+
+.wordmark {
+  font-size: clamp(52px, 11vw, 144px);
+}
+
+.wordmark .wm {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-sub {
+  font-size: clamp(14px, 1.6vw, 17px);
+}
+
+.hero-foot {
+  position: absolute;
+  inset: auto 0 var(--s-5) 0;
+  padding: 0 var(--s-3);
+  font-size: 12px;
+  color: var(--nevoa);
+  letter-spacing: var(--ls-eyebrow);
+  text-align: center;
+}
+
+/* seção 2 — a dupla ------------------------------------------------- */
+
+.dupla {
+  padding: var(--s-16) var(--s-3);
+}
+
+.lados {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-6);
+}
+
+.lado {
+  border-top: 1px solid var(--line);
+  padding-top: var(--s-4);
+}
+
+.lado-b {
+  text-align: right;
+}
+
+.eyebrow {
+  font-size: 12px;
+  color: var(--nevoa);
+  letter-spacing: var(--ls-eyebrow);
+}
+
+.nome {
+  font-size: clamp(40px, 6vw, 88px);
+  margin: var(--s-2) 0;
+}
+
+.nome-pnk {
+  color: var(--pnk);
+}
+
+.nome-crbr {
+  color: var(--crbr);
+}
+
+.civil {
+  font-size: 15px;
+}
+
+.arroba {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition:
+    text-decoration-thickness var(--t-hover) var(--ease),
+    text-decoration-color var(--t-hover) var(--ease);
+}
+
+.lado-a .arroba {
+  text-decoration-color: var(--pnk);
+}
+
+.lado-b .arroba {
+  text-decoration-color: var(--crbr);
+}
+
+.arroba:hover,
+.arroba:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+.ponte {
+  margin: var(--s-12) auto 0;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* seção 3 — o plano ------------------------------------------------- */
+
+.plano {
+  padding: var(--s-16) var(--s-3);
+}
+
+.cartao {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: var(--s-7) var(--s-6);
+  box-shadow: var(--sombra-cartao);
+}
+
+.regua {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+  border-top: 2px solid var(--osso);
+  border-bottom: 2px solid var(--osso);
+  padding: var(--s-2) 0;
+  margin-bottom: var(--s-5);
+  font-size: 13px;
+  letter-spacing: var(--ls-eyebrow);
+}
+
+.linhas {
+  font-size: 15px;
+  line-height: 2.2;
+}
+
+.rotulo {
+  color: var(--nevoa);
+}
+
+.destaque {
+  color: var(--nariz);
+}
+
+.pill {
+  display: inline-block;
+  margin-top: var(--s-5);
+  border: 2px solid var(--osso);
+  border-radius: var(--pill);
+  padding: var(--s-2) var(--s-4);
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--osso);
+  background: transparent;
+  transition:
+    background-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.pill:hover {
+  background: var(--osso);
+  color: var(--breu);
+}
+
+/* seção 4 — footer -------------------------------------------------- */
+
+.rodape {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-8) var(--s-3);
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--nevoa);
+}
+
+.rodape .selo {
+  color: var(--nariz);
+}
+
+/* entrada — roda uma vez, no load ----------------------------------- */
+
+.js .venn-a {
+  animation: venn-a var(--t-entrada) var(--ease) both;
+}
+
+.js .venn-b {
+  animation: venn-b var(--t-entrada) var(--ease) both;
+}
+
+.js .venn-ponto {
+  animation:
+    ponto-entra var(--t-estado) var(--ease) 900ms both,
+    rec 1.6s linear 1300ms infinite;
+}
+
+.js .rise {
+  animation: rise var(--t-estado) var(--ease) both;
+}
+
+.js .rise-wordmark {
+  animation-delay: 1100ms;
+}
+
+.js .rise-sub {
+  animation-delay: 1300ms;
+}
+
+.js .rise-foot {
+  animation-delay: 1500ms;
+}
+
+/* os círculos deslizam em unidades do viewbox (px = unidade do svg) */
+@keyframes venn-a {
+  from { transform: translateX(-40px); }
+}
+
+@keyframes venn-b {
+  from { transform: translateX(40px); }
+}
+
+@keyframes ponto-entra {
+  from { opacity: 0; }
+}
+
+/* pulso de rec — corte seco, sem fade */
+@keyframes rec {
+  0%, 49.99% { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* reduced motion — tudo visível de imediato, nada se move ------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .venn-a,
+  .js .venn-b,
+  .js .venn-ponto,
+  .js .rise {
+    animation: none;
+  }
+}
+
+/* responsivo --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .lados {
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+  }
+
+  .lado-b {
+    text-align: left;
+  }
+}
+
+@media (max-width: 540px) {
+  .wordmark .wm {
+    display: block;
+  }
+
+  .cartao {
+    padding: var(--s-4) var(--s-3);
+  }
+
+  .rodape {
+    flex-direction: column;
+    gap: var(--s-1);
+  }
+}
