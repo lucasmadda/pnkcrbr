@@ -61,6 +61,23 @@ jobs:
             -o pages.json -w "get pages: %{http_code}\n"
           jq -r '"status=\(.status) cname=\(.cname) build_type=\(.build_type) https_enforced=\(.https_enforced) dominio=\(.protected_domain_state) certificado=\(.https_certificate.state) (\(.https_certificate.description))"' pages.json || cat pages.json
 
+      - name: cutuca a emissão se o certificado não existe
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # dns certo + certificado nem começou -> re-salvar o cname dispara a revalidação do domínio
+          parado=$(jq -r 'if .https_certificate.state == null then "1" else "0" end' pages.json 2>/dev/null || echo 0)
+          apex_ok=$(dig +short A pnkcrbr.com | grep -c '^185\.199\.' || true)
+          if [ "$parado" = "1" ] && [ "$apex_ok" -ge 4 ]; then
+            curl -s -X PUT -H "authorization: bearer $GH_TOKEN" \
+              -H "accept: application/vnd.github+json" \
+              -d '{"cname":"pnkcrbr.com"}' \
+              "https://api.github.com/repos/${{ github.repository }}/pages" \
+              -o /dev/null -w "put cname (revalidacao): %{http_code}\n"
+          else
+            echo "revalidacao: nada a fazer"
+          fi
+
       - name: liga enforce https quando o certificado aprovar
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
